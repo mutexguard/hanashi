@@ -41,13 +41,16 @@ class Conversation(BaseModel):
         id: str | None = None,
         role: str | Role,
         content: str,
-        metadata: dict[str, Any],
+        metadata: dict[str, Any] | None = None,
     ) -> None:
         if not id:
             id = uuid()
 
         if isinstance(role, str):
             role = Role(role)
+
+        if not metadata:
+            metadata = {}
 
         message = Message(id=id, role=role, content=content, metadata=metadata)
         self.messages.append(message)
