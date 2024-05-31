@@ -8,7 +8,7 @@ from qdrant_client.http import models
 
 from hanashi.core.embedding import Embedding
 from hanashi.core.vector_search.base import ScoredDocument, VectorSearch
-from hanashi.utils import log_time
+from hanashi.utils.logging import log_time
 
 logger = structlog.get_logger()
 

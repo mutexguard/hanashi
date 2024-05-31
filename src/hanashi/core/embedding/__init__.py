@@ -1,7 +1,7 @@
 import structlog
 from llm_taxi.factory import embedding
 
-from hanashi.utils import log_time
+from hanashi.utils.logging import log_time
 
 logger = structlog.get_logger()
 

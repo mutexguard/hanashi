@@ -5,7 +5,7 @@ from llm_taxi.conversation import Message, Role
 from llm_taxi.factory import llm
 
 from hanashi.types import Conversation
-from hanashi.utils import log_time
+from hanashi.utils.logging import log_time
 
 logger = structlog.get_logger()
 
