@@ -1,5 +1,5 @@
 import os
-from typing import Any, cast
+from typing import Any, TypeVar, cast
 
 import structlog
 from pydantic import BaseModel
@@ -11,6 +11,9 @@ from hanashi.core.vector_search.base import ScoredDocument, VectorSearch
 from hanashi.utils.logging import log_time
 
 logger = structlog.get_logger()
+
+
+T_Document = TypeVar("T_Document", bound=BaseModel)
 
 
 def create_filters(filters) -> models.Filter | None:
@@ -109,7 +112,7 @@ class Qdrant(VectorSearch):
         query: str,
         limit: int = 10,
         filters: list[dict] | None = None,
-        model: type[BaseModel] | None = None,
+        model: type[T_Document] | None = None,
         **_kwargs,
     ) -> list[ScoredDocument]:
         query_vector = await self.embedding.embed_text(query)
@@ -165,7 +168,7 @@ class Qdrant(VectorSearch):
         queries: list[str],
         limit: int = 10,
         filters: list[dict] | list[list[dict]] | None = None,
-        model: type[BaseModel] | None = None,
+        model: type[T_Document] | None = None,
         **_kwargs,
     ) -> list[list[ScoredDocument]]:
         if not filters:
@@ -236,7 +239,7 @@ class Qdrant(VectorSearch):
         self,
         limit: int,
         filters: list[dict] | None = None,
-        model: type[BaseModel] | None = None,
+        model: type[T_Document] | None = None,
         **kwargs,  # noqa: ARG002
     ) -> list[Any]:
         query_filter = create_filters(filters)

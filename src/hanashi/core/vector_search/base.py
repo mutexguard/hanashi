@@ -1,7 +1,9 @@
 from collections.abc import Iterable
-from typing import Any
+from typing import Any, Generic, TypeVar
 
 from pydantic import BaseModel, ConfigDict
+
+T_Document = TypeVar("T_Document", bound=BaseModel)
 
 
 class ScoredDocument(BaseModel):
@@ -11,13 +13,13 @@ class ScoredDocument(BaseModel):
     score: float | None = None
 
 
-class VectorSearch:
+class VectorSearch(Generic[T_Document]):
     async def retrieve_documents(
         self,
         query: str,
         limit: int = 10,
         filters: list[dict] | None = None,
-        model: type[BaseModel] | None = None,
+        model: type[T_Document] | None = None,
         **kwargs,
     ) -> list[ScoredDocument]:
         raise NotImplementedError
@@ -27,7 +29,7 @@ class VectorSearch:
         queries: list[str],
         limit: int = 10,
         filters: list[dict] | list[list[dict]] | None = None,
-        model: type[BaseModel] | None = None,
+        model: type[T_Document] | None = None,
         **kwargs,
     ) -> list[list[ScoredDocument]]:
         raise NotImplementedError
@@ -36,7 +38,7 @@ class VectorSearch:
         self,
         limit: int,
         filters: list[dict] | None = None,
-        model: type[BaseModel] | None = None,
+        model: type[T_Document] | None = None,
         **kwargs,
     ) -> list[Any]:
         raise NotImplementedError
