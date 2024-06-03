@@ -16,7 +16,7 @@ class Document(BaseModel):
 class ScoredDocument(BaseModel, Generic[T_Document]):
     model_config = ConfigDict(extra="forbid")
 
-    doc: T_Document | Any
+    document: T_Document | Any
     score: float
 
 
@@ -69,4 +69,4 @@ def filter_search_results(
             if keep_score:
                 yield result
             else:
-                yield result.doc
+                yield result.document

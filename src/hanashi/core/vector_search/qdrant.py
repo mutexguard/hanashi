@@ -149,7 +149,7 @@ class Qdrant(VectorSearch):
 
         return [
             ScoredDocument(
-                doc=model.parse_obj(x.payload) if model else x.payload,
+                document=model.parse_obj(x.payload) if model else x.payload,
                 score=x.score,
             )
             for x in docs
@@ -219,7 +219,7 @@ class Qdrant(VectorSearch):
         return [
             [
                 ScoredDocument(
-                    doc=model.parse_obj(x.payload) if model else x.payload,
+                    document=model.parse_obj(x.payload) if model else x.payload,
                     score=x.score,
                 )
                 for x in docs

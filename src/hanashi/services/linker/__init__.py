@@ -111,7 +111,7 @@ class Linker(Generic[T_LinkedEntity]):
         linked_entities: list[LinkedEntity] = []
         entity_with_candidates: list[dict] = []
         for entity, docs_with_scores in zip(to_link_entities, batch_docs, strict=True):
-            docs = [x.doc for x in docs_with_scores]
+            docs = [x.document for x in docs_with_scores]
             if process_fn := self.candidate_postprocess_fns.get(entity.type):
                 processed_docs = process_fn(entity, docs)
                 logger.info(
@@ -135,7 +135,7 @@ class Linker(Generic[T_LinkedEntity]):
                         link_entity = LinkedEntity(
                             type=entity.type,
                             name=entity.name,
-                            metadata=cast(dict, skip_check_docs[0].doc),
+                            metadata=cast(dict, skip_check_docs[0].document),
                         )
                         linked_entities += [link_entity]
                         logger.info(
