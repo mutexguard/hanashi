@@ -6,10 +6,17 @@ from pydantic import BaseModel, ConfigDict
 T_Document = TypeVar("T_Document", bound=BaseModel)
 
 
-class ScoredDocument(BaseModel):
+class Document(BaseModel):
+    id: str
+    source_id: str | None = None
+    index: int | None = None
+    content: str
+
+
+class ScoredDocument(BaseModel, Generic[T_Document]):
     model_config = ConfigDict(extra="forbid")
 
-    doc: Any
+    doc: T_Document | Any
     score: float | None = None
 
 
@@ -46,11 +53,11 @@ class VectorSearch(Generic[T_Document]):
 
 def filter_search_results(
     results: Iterable[ScoredDocument],
-    score_threshold: float,
     *,
+    score_threshold: float,
     require_score: bool = True,
     keep_score: bool = False,
-) -> Iterable:
+) -> Iterable[ScoredDocument] | Iterable[Document]:
     for result in results:
         if (
             not require_score and (not result.score or result.score >= score_threshold)

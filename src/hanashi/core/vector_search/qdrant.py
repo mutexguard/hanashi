@@ -2,18 +2,17 @@ import os
 from typing import Any, TypeVar, cast
 
 import structlog
-from pydantic import BaseModel
 from qdrant_client import AsyncQdrantClient
 from qdrant_client.http import models
 
 from hanashi.core.embedding import Embedding
-from hanashi.core.vector_search.base import ScoredDocument, VectorSearch
+from hanashi.core.vector_search.base import Document, ScoredDocument, VectorSearch
 from hanashi.utils.logging import log_time
 
 logger = structlog.get_logger()
 
 
-T_Document = TypeVar("T_Document", bound=BaseModel)
+T_Document = TypeVar("T_Document", bound=Document)
 
 
 def create_filters(filters) -> models.Filter | None:
