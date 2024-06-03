@@ -177,9 +177,12 @@ pyyaml==6.0.1
     # via huggingface-hub
 qdrant-client==1.9.1
     # via hanashi
+regex==2024.5.15
+    # via tiktoken
 requests==2.32.3
     # via google-api-core
     # via huggingface-hub
+    # via tiktoken
     # via together
 rich==13.7.1
     # via typer
@@ -201,6 +204,8 @@ structlog==24.2.0
     # via hanashi
 tabulate==0.9.0
     # via together
+tiktoken==0.7.0
+    # via hanashi
 together==1.2.0
     # via llm-taxi
 tokenizers==0.19.1

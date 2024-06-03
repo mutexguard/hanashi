@@ -10,6 +10,7 @@ dependencies = [
     "structlog>=24.2.0",
     "llm-taxi>=0.3.3",
     "qdrant-client>=1.9.1",
+    "tiktoken>=0.7.0",
 ]
 readme = "README.md"
 requires-python = ">= 3.10"
