@@ -53,8 +53,8 @@ class LLMGenerator(
     ) -> AsyncGenerator | str:
         content = self._format_prompt(conversation, documents)
 
-        task_conversation = conversation.new()
-        task_conversation.add(Message(role=Role.User, content=content))
+        task = conversation.new()
+        task.add(Message(role=Role.User, content=content))
 
         call_kwargs = {}
         if generate_params:
@@ -67,6 +67,6 @@ class LLMGenerator(
             stream = True
 
         if stream:
-            return await self.llm.streaming_response(task_conversation, **call_kwargs)
+            return await self.llm.streaming_response(task, **call_kwargs)
 
-        return await self.llm.response(task_conversation, **call_kwargs)
+        return await self.llm.response(task, **call_kwargs)
