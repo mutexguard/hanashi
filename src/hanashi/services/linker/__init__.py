@@ -168,7 +168,7 @@ class Linker(Generic[T_LinkedEntity]):
 
         return entity_with_candidates, unlinked_entities, linked_entities
 
-    async def _linking_by_llm(
+    async def _link_by_llm(
         self,
         query: str,
         entities_with_candidates: list[dict],
@@ -301,7 +301,7 @@ class Linker(Generic[T_LinkedEntity]):
             )
 
         # TODO Add chat history information
-        linked_entities_by_llm, unlinked_entities_by_llm = await self._linking_by_llm(
+        linked_entities_by_llm, unlinked_entities_by_llm = await self._link_by_llm(
             question,
             entity_with_candidates,
             **kwargs,
