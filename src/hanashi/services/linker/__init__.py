@@ -25,6 +25,10 @@ class LinkerResponse(BaseModel):
 
 
 T_LinkedEntity = TypeVar("T_LinkedEntity", bound=LinkedEntity)
+CandidatePostProcessFunction = Callable[
+    [Entity, list[T_LinkedEntity]],
+    list[T_LinkedEntity],
+]
 
 
 class Linker(Generic[T_LinkedEntity]):
@@ -37,8 +41,7 @@ class Linker(Generic[T_LinkedEntity]):
         cross_search_types: dict[str, list[str]] | None = None,
         candidate_format_function: Callable[[Entity], str] | None = None,
         candidate_postprocess_fns: (
-            dict[str, Callable[[Entity, list[T_LinkedEntity]], list[T_LinkedEntity]]]
-            | None
+            dict[str, CandidatePostProcessFunction] | None
         ) = None,
         skip_llm_check_confidence: float | None = None,
     ) -> None:

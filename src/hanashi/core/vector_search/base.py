@@ -3,7 +3,7 @@ from typing import Any, Generic, TypeVar
 
 from pydantic import BaseModel, ConfigDict
 
-T_Document = TypeVar("T_Document", bound=BaseModel)
+T_Document = TypeVar("T_Document")
 
 
 class Document(BaseModel):
@@ -16,7 +16,7 @@ class Document(BaseModel):
 class ScoredDocument(BaseModel, Generic[T_Document]):
     model_config = ConfigDict(extra="forbid")
 
-    document: T_Document | Any
+    document: T_Document
     score: float
 
 
@@ -57,11 +57,7 @@ def filter_search_results(
     score_threshold: float,
     require_score: bool = True,
     keep_score: bool = False,
-) -> (
-    Iterable[ScoredDocument[T_Document]]
-    | Iterable[ScoredDocument[Any]]
-    | Iterable[Document]
-):
+) -> Iterable[ScoredDocument[T_Document]] | Iterable[T_Document]:
     for result in results:
         if (
             not require_score and (not result.score or result.score >= score_threshold)
