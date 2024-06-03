@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 from hanashi.core.llm import LLM
 from hanashi.core.llm.utils import extract_json
-from hanashi.types.conversation import Conversation, Role
+from hanashi.types.conversation import Conversation, Message, Role
 
 logger = structlog.get_logger()
 
@@ -28,7 +28,7 @@ class Extractor:
 
         # Response
         task = Conversation()
-        task.add(role=Role.User, content=content)
+        task.add(Message(role=Role.User, content=content))
         return await self.llm.response(task, **kwargs)
 
     def _post_process(self, response: str) -> list[Entity]:

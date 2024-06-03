@@ -35,24 +35,7 @@ class Conversation(BaseModel):
     id: str = Field(default_factory=uuid)
     messages: list[Message] = Field(default_factory=list)
 
-    def add(
-        self,
-        *,
-        id: str | None = None,
-        role: str | Role,
-        content: str,
-        metadata: dict[str, Any] | None = None,
-    ) -> None:
-        if not id:
-            id = uuid()
-
-        if isinstance(role, str):
-            role = Role(role)
-
-        if not metadata:
-            metadata = {}
-
-        message = Message(id=id, role=role, content=content, metadata=metadata)
+    def add(self, message: Message) -> None:
         self.messages.append(message)
 
     def get_system_message(self, *, which: Literal["first", "last"]) -> Message | None:

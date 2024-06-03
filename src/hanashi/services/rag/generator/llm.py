@@ -10,7 +10,7 @@ from hanashi.services.rag.base import (
     T_FormatParams,
     T_Formattable,
 )
-from hanashi.types.conversation import Conversation, Role
+from hanashi.types.conversation import Conversation, Message, Role
 
 
 class GenerateParams(BaseModel):
@@ -54,7 +54,7 @@ class LLMGenerator(
         content = self._format_prompt(conversation, documents)
 
         task_conversation = conversation.new()
-        task_conversation.add(role=Role.User, content=content)
+        task_conversation.add(Message(role=Role.User, content=content))
 
         call_kwargs = {}
         if generate_params:

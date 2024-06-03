@@ -9,7 +9,7 @@ from hanashi.core.llm import LLM
 from hanashi.core.vector_search import filter_search_results
 from hanashi.core.vector_search.base import ScoredDocument, VectorSearch
 from hanashi.services.extractor import Entity
-from hanashi.types import Conversation
+from hanashi.types import Conversation, Message
 from hanashi.types.conversation import Role
 
 logger = structlog.get_logger()
@@ -190,7 +190,7 @@ class Linker(Generic[T_LinkedEntity]):
             logger.debug("Formatted prompt", content=content)
 
             task = Conversation()
-            task.add(role=Role.User, content=content)
+            task.add(Message(role=Role.User, content=content))
 
             futures += [self.llm.response(task, **kwargs)]
 
