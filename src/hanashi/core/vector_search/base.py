@@ -17,7 +17,7 @@ class ScoredDocument(BaseModel, Generic[T_Document]):
     model_config = ConfigDict(extra="forbid")
 
     doc: T_Document | Any
-    score: float | None = None
+    score: float
 
 
 class VectorSearch(Generic[T_Document]):
@@ -28,7 +28,7 @@ class VectorSearch(Generic[T_Document]):
         filters: list[dict] | None = None,
         model: type[T_Document] | None = None,
         **kwargs,
-    ) -> list[ScoredDocument]:
+    ) -> list[ScoredDocument[T_Document]]:
         raise NotImplementedError
 
     async def batch_retrieve_documents(
@@ -38,7 +38,7 @@ class VectorSearch(Generic[T_Document]):
         filters: list[dict] | list[list[dict]] | None = None,
         model: type[T_Document] | None = None,
         **kwargs,
-    ) -> list[list[ScoredDocument]]:
+    ) -> list[list[ScoredDocument[T_Document]]]:
         raise NotImplementedError
 
     async def list_documents(
@@ -52,12 +52,16 @@ class VectorSearch(Generic[T_Document]):
 
 
 def filter_search_results(
-    results: Iterable[ScoredDocument],
+    results: Iterable[ScoredDocument[T_Document]],
     *,
     score_threshold: float,
     require_score: bool = True,
     keep_score: bool = False,
-) -> Iterable[ScoredDocument] | Iterable[Document]:
+) -> (
+    Iterable[ScoredDocument[T_Document]]
+    | Iterable[ScoredDocument[Any]]
+    | Iterable[Document]
+):
     for result in results:
         if (
             not require_score and (not result.score or result.score >= score_threshold)
