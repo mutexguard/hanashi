@@ -14,7 +14,7 @@ class Entity(BaseModel):
 
 
 class Extractor:
-    def __init__(self, llm: LLM, prompt_template: str) -> None:
+    def __init__(self, *, llm: LLM, prompt_template: str) -> None:
         self.llm = llm
         self.prompt_template = prompt_template
 
